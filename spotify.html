@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Clone</title>
+    <style>
+        .Home-header {
+            margin: 10px 20px;
+            padding-bottom: 20px;
+            border: 2px solid rgb(169, 168, 168);
+            border-radius: 10px;
+            text-align: center;
+            padding: 10px;
+        }
+        .Home {
+            display: flex;
+        }
+        .Home .Home-header img {
+            border-radius: 10px 10px 0 0;
+            width: 150px;
+            height: 150px;
+        }
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .control-btn {
+            padding: 10px;
+            background-color: #1db954;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .control-btn:hover {
+            background-color: #17a747;
+        }
+    </style>
+</head>
+<body>
+    <div class="Home"></div>
+
+    <script>
+        const Music = [
+            {
+                id: 1,
+                name: "Chinnataname",
+                artist: "S.P.Balasubramaniam",
+                img: "Images/download.jpeg",
+                src: "Music/Chinnataname - SenSongsMp3.Co.mp3"
+            },
+            {
+                id: 2,
+                name: "Pichonne Ayipoy",
+                artist: "S.P.Balasubramaniam",
+                img: "Images/Winner-2017jpeg.jpg",
+                src: "Music/Pichonne Ayipoya - SenSongsMp3.Co.mp3"
+            },
+            {
+                id: 3,
+                name: "Chandrullo Undey",
+                artist: "S.P.Balasubramaniam",
+                img: "Images/Nuvvostanante-Nenoddantana-jpeg.jpg",
+                src: "Music/04 - Chandrullo Unde Kundelu  - SenSongsMp3.co.mp3"
+            }
+        ];
+
+        let currentAudio = null;
+        let currentButton = null;
+
+        let aud = "";
+        Music.forEach((element) => {
+            aud += `
+                <div class="Home-header">
+                    <img src="${element.img}" alt="${element.name}">
+                    <div class="controls">
+                        <audio id="${element.name}">
+                            <source src="${element.src}" type="audio/mpeg">
+                        </audio>
+                        <button class="control-btn">⏮</button>
+                        <button class="control-btn play-btn" onclick="togglePlay(this, '${element.name}')">▶</button>
+                        <button class="control-btn">⏭</button>
+                    </div>
+                </div>
+            `;
+        });
+
+        document.querySelector(".Home").innerHTML = aud;
+
+        function togglePlay(button, audioId) {
+            let audio = document.getElementById(audioId);
+
+            // Stop the currently playing audio if different from the new one
+            if (currentAudio && currentAudio !== audio) {
+              console.log(audio);
+                currentAudio.pause();
+                if (currentButton) {
+                    currentButton.innerText = "▶"; // Reset previous play button
+                }
+            }
+
+            // Toggle play/pause for the selected song
+            if (audio.paused) {
+                audio.play();
+                button.innerText = "⏸";
+                currentAudio = audio; // Store current playing audio
+                currentButton = button;
+            } else {
+                audio.pause();
+                button.innerText = "▶";
+                currentAudio = null;
+                currentButton = null;
+            }
+        }
+    </script>
+</body>
+</html>
